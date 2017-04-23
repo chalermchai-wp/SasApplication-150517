@@ -1,13 +1,13 @@
 package com.example.realz.sasapplication;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -21,6 +21,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static com.example.realz.sasapplication.R.id.username;
+
 public class MainActivity extends AppCompatActivity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int READ_TIMEOUT=15000;
     private EditText etEmail;
     private EditText etPassword;
+    private TextView textView;
+    private TextView textView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Get Reference to variables
-        etEmail = (EditText) findViewById(R.id.username);
+        etEmail = (EditText) findViewById(username);
         etPassword = (EditText) findViewById(R.id.password);
 
     }
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login");
+                url = new URL("https://team3.ml/Login/check_loginapp");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -97,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         .appendQueryParameter("username", params[0])
                         .appendQueryParameter("password", params[1]);
                 String query = builder.build().getEncodedQuery();
+
 
                 // Open connection for sending data
                 OutputStream os = conn.getOutputStream();
@@ -162,9 +167,12 @@ public class MainActivity extends AppCompatActivity {
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
 
-                Intent intent = new Intent(MainActivity.this,UserActivity.class);
-                startActivity(intent);
-                MainActivity.this.finish();
+                Toast.makeText(MainActivity.this, "login", Toast.LENGTH_LONG).show();
+
+
+                //Intent intent = new Intent(getApplicationContext(),UserActivity.class);
+                //startActivity(intent);
+
 
             }else if (result.equalsIgnoreCase("false")){
 
@@ -174,6 +182,13 @@ public class MainActivity extends AppCompatActivity {
             } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
 
                 Toast.makeText(MainActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+
+            }else{
+                Toast.makeText(MainActivity.this, "elseeeeeeeee", Toast.LENGTH_LONG).show();
+
+                //Toast.makeText(MainActivity.this, username, Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, password, Toast.LENGTH_LONG).show();
+
 
             }
         }
