@@ -17,9 +17,9 @@ public class UserActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String username = intent.getStringExtra(MainActivity.USER_NAME);
+       // String username = intent.getStringExtra(MainActivity.USER_NAME);
 
-        textView.setText("Welcome User "+username);
+        //textView.setText("Welcome User "+username);
     }
 
 }
