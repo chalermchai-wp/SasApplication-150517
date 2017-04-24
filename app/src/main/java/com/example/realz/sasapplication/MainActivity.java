@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +21,15 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int READ_TIMEOUT=15000;
     private EditText etEmail;
     private EditText etPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +64,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     private class AsyncLogin extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(MainActivity.this);
-        HttpURLConnection conn;
+        HttpsURLConnection conn;
         URL url = null;
 
         @Override
@@ -71,11 +84,13 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected String doInBackground(String... params) {
+            disableSSLCertificateChecking();
             try {
                 //https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login
                 // Enter URL address where your php file resides
                 //https://team3.ml/Login/check_loginapp
-                url = new URL("https://team3.ml/Login/check_loginapp");
+
+                url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -87,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
+                conn = (HttpsURLConnection)url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
@@ -111,10 +126,12 @@ public class MainActivity extends AppCompatActivity {
                 writer.close();
                 os.close();
                 conn.connect();
+                Log.d("catch","11");
 
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
+                Log.d("catch","catch");
                 return "exception";
             }
 
@@ -180,9 +197,53 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
 
             } else {
-                Toast.makeText(MainActivity.this, "elseeeeeeeeeeeeeesę", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "elseeeeeeeeeeeëeê", Toast.LENGTH_LONG).show();
             }
         }
 
     }
+
+    private static void disableSSLCertificateChecking() {
+        TrustManager[] trustAllCerts = new TrustManager[] {
+                new X509TrustManager() {
+
+                    @Override
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] x509Certificates, String s) throws java.security.cert.CertificateException {
+                        // not implemented
+                    }
+
+                    @Override
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] x509Certificates, String s) throws java.security.cert.CertificateException {
+                        // not implemented
+                    }
+
+                    @Override
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+
+                }
+        };
+
+        try {
+
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+
+                @Override
+                public boolean verify(String s, SSLSession sslSession) {
+                    return true;
+                }
+
+            });
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
