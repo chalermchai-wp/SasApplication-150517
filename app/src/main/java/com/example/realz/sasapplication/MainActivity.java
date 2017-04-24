@@ -1,253 +1,188 @@
 package com.example.realz.sasapplication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected EditText username;
+    // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
 
-    private EditText password;
-
-    protected String enteredUsername;
-
-    private final String serverUrl = "https://team3.ml/Login/check_loginapp";
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
+    private EditText etEmail;
+    private EditText etPassword;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        username = (EditText)findViewById(R.id.username);
-
-        password = (EditText)findViewById(R.id.password);
-
-        Button loginButton = (Button)findViewById(R.id.button);
-
-       // Button registerButton = (Button)findViewById(R.id.register_button);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View v) {
-
-                enteredUsername = username.getText().toString();
-
-                String enteredPassword = password.getText().toString();
-
-                if(enteredUsername.equals("") || enteredPassword.equals("")){
-
-                    Toast.makeText(MainActivity.this, "Username or password must be filled", Toast.LENGTH_LONG).show();
-
-                    return;
-
-                }
-
-                if(enteredUsername.length() <= 1 || enteredPassword.length() <= 1){
-
-                    Toast.makeText(MainActivity.this, "Username or password length must be greater than one", Toast.LENGTH_LONG).show();
-
-                    return;
-
-                }
-
-// request authentication with remote server4
-                if(enteredUsername.length() > 3 || enteredPassword.length() > 3){
-                    AsyncDataClass asyncRequestObject = new AsyncDataClass();
-
-                    asyncRequestObject.execute(serverUrl, enteredUsername, enteredPassword);
-
-                }
-
-
-
-            }
-
-        });
-
-
+        // Get Reference to variables
+        etEmail = (EditText) findViewById(R.id.username);
+        etPassword = (EditText) findViewById(R.id.password);
 
     }
 
+    // Triggers when LOGIN Button clicked
+    public void checkLogin(View arg0) {
 
+        // Get text from email and passord field
+        final String email = etEmail.getText().toString().trim();
+        final String password = etPassword.getText().toString().trim();
 
+        // Initialize  AsyncLogin() class with email and password
+        new AsyncLogin().execute(email,password);
 
+    }
 
-    private class AsyncDataClass extends AsyncTask<String, Void, String> {
-
-        @Override
-
-        protected String doInBackground(String... params) {
-
-            HttpParams httpParameters = new BasicHttpParams();
-
-            HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
-
-            HttpConnectionParams.setSoTimeout(httpParameters, 5000);
-
-            HttpClient httpClient = new DefaultHttpClient(httpParameters);
-
-            HttpPost httpPost = new HttpPost(params[0]);
-
-            String jsonResult = "";
-
-            try {
-
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-
-                nameValuePairs.add(new BasicNameValuePair("username", params[1]));
-
-                nameValuePairs.add(new BasicNameValuePair("password", params[2]));
-
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                HttpResponse response = httpClient.execute(httpPost);
-
-                jsonResult = inputStreamToString(response.getEntity().getContent()).toString();
-
-            } catch (ClientProtocolException e) {
-
-                e.printStackTrace();
-
-            } catch (IOException e) {
-
-                e.printStackTrace();
-
-            }
-
-            return jsonResult;
-
-        }
+    private class AsyncLogin extends AsyncTask<String, String, String>
+    {
+        ProgressDialog pdLoading = new ProgressDialog(MainActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
 
         @Override
-
         protected void onPreExecute() {
-
             super.onPreExecute();
 
-        }
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
 
+        }
         @Override
+        protected String doInBackground(String... params) {
+            try {
+                //https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login
+                // Enter URL address where your php file resides
+                //https://team3.ml/Login/check_loginapp
+                url = new URL("https://team3.ml/Login/check_loginapp");
 
-        protected void onPostExecute(String result) {
-
-            super.onPostExecute(result);
-
-            System.out.println("Resulted Value: " + result);
-
-            if(result.equals("") || result == null){
-
-                Toast.makeText(MainActivity.this, "Server connection failed", Toast.LENGTH_LONG).show();
-
-                return;
-
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
             }
+            try {
 
-            int jsonResult = returnParsedJsonObject(result);
 
-            if(jsonResult == 0){
 
-                Toast.makeText(MainActivity.this, "Invalid username or password", Toast.LENGTH_LONG).show();
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
 
-                return;
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
 
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("username", params[0])
+                        .appendQueryParameter("password", params[1]);
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
             }
-
-            if(jsonResult == 1){
-
-                Intent intent = new Intent(MainActivity.this, UserActivity.class);
-
-                intent.putExtra("USERNAME", enteredUsername);
-
-                intent.putExtra("MESSAGE", "You have been successfully login");
-
-                startActivity(intent);
-
-            }
-
-        }
-
-        private StringBuilder inputStreamToString(InputStream is) {
-
-            String rLine = "";
-
-            StringBuilder answer = new StringBuilder();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             try {
 
-                while ((rLine = br.readLine()) != null) {
+                int response_code = conn.getResponseCode();
 
-                    answer.append(rLine);
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
 
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return(result.toString());
+
+                }else{
+
+                    return("unsuccessful");
                 }
 
             } catch (IOException e) {
-
-// TODO Auto-generated catch block
-
                 e.printStackTrace();
-
+                return "exception";
+            } finally {
+                conn.disconnect();
             }
 
-            return answer;
 
         }
 
-    }
+        @Override
+        protected void onPostExecute(String result) {
 
-    private int returnParsedJsonObject(String result){
+            //this method will be running on UI thread
 
-        JSONObject resultObject = null;
+            pdLoading.dismiss();
 
-        int returnedResult = 0;
+            if(result.equalsIgnoreCase("true"))
+            {
+                /* Here launching another activity when login successful. If you persist login state
+                use sharedPreferences of Android. and logout button to clear sharedPreferences.
+                 */
 
-        try {
+                Intent intent = new Intent(MainActivity.this,UserActivity.class);
+                startActivity(intent);
 
-            resultObject = new JSONObject(result);
 
-            returnedResult = resultObject.getInt("success");
+            }else if (result.equalsIgnoreCase("false")){
 
-        } catch (JSONException e) {
+                // If username and password does not match display a error message
+                Toast.makeText(MainActivity.this, "Invalid email or password", Toast.LENGTH_LONG).show();
 
-            e.printStackTrace();
+            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
 
+                Toast.makeText(MainActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+
+            } else {
+                Toast.makeText(MainActivity.this, "elseeeeeeeeeeeeeesę", Toast.LENGTH_LONG).show();
+            }
         }
 
-        return returnedResult;
-
     }
-
 }

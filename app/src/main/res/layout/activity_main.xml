@@ -94,7 +94,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:background="@drawable/loginbtn"
-        android:onClick="Onlogin"
+        android:onClick="checkLogin"
         android:text="Login"
         android:textColor="#FFFFFF"
         android:textScaleX="2" />
