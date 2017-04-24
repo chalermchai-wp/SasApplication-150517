@@ -34,7 +34,7 @@ import javax.net.ssl.X509TrustManager;
 public class MainActivity extends AppCompatActivity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
-
+    public static final String USER_NAME = "USERNAME";
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
     private EditText etEmail;
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 return "exception";
             }
             try {
-                
+
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpsURLConnection)url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);

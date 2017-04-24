@@ -1,17 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.realz.sasapplication.UserActivity">
+    tools:context="com.example.realz.sasapplication.UserActivity"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textlogin"
-        android:layout_width="304dp"
-        android:layout_height="wrap_content"
-        android:text="sadasdisgadsadsabmd"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dip"
+        android:background="#fffffe"
+        android:orientation="horizontal">
 
-</android.support.constraint.ConstraintLayout>
+        <ImageButton
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:src="@drawable/analytics"
+            android:background="@android:color/transparent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:text="ทำแบบประเมิน"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#919191">
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="80dip"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:src="@drawable/tasks"
+            android:background="@android:color/transparent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="ผลการทำแบบประเมิน"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginTop="30dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#919191">
+    </LinearLayout>
+
+</LinearLayout>
