@@ -86,10 +86,9 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             disableSSLCertificateChecking();
             try {
-                //https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login
                 // Enter URL address where your php file resides
                 //https://team3.ml/Login/check_loginapp
-
+                //https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login
                 url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login");
 
             } catch (MalformedURLException e) {
@@ -98,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 return "exception";
             }
             try {
-
-
-
+                
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpsURLConnection)url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
@@ -182,10 +179,8 @@ public class MainActivity extends AppCompatActivity {
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
-
                 Intent intent = new Intent(MainActivity.this,UserActivity.class);
                 startActivity(intent);
-
 
             }else if (result.equalsIgnoreCase("false")){
 
@@ -197,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
 
             } else {
-                Toast.makeText(MainActivity.this, "elseeeeeeeeeeeëeê", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "elsèeēeëeê", Toast.LENGTH_LONG).show();
             }
         }
 
