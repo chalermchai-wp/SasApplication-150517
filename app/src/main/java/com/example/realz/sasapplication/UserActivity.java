@@ -12,7 +12,8 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         //getActionBar().setTitle("เมนู");
-        //getSupportActionBar().setTitle("เมนู");
+        //getSupportActionBar().setTitle("เมนู");d
+
 
         //Intent intent = getIntent();
 
