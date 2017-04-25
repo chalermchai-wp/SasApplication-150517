@@ -46,9 +46,8 @@ public class TestJSON extends AppCompatActivity {
                 new JsonTask().execute("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/DoAssess/ListAssess");
             }
         });
-
-
     }
+
 
 
     private class JsonTask extends AsyncTask<String, String, String> {
@@ -73,8 +72,6 @@ public class TestJSON extends AppCompatActivity {
                 URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
-
-
                 InputStream stream = connection.getInputStream();
 
                 reader = new BufferedReader(new InputStreamReader(stream));
@@ -116,7 +113,14 @@ public class TestJSON extends AppCompatActivity {
             if (pd.isShowing()){
                 pd.dismiss();
             }
+
+
+//            JSONObject json = new JSONObject(result);
+//            JSONObject jsonResponse = json.getJSONObject("response");
+//            String team = jsonResponse.getString("assess_id");
+
             txtJson.setText(result);
+
         }
     }
 

@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Get Reference to variables
         etEmail = (EditText) findViewById(R.id.username);
         etPassword = (EditText) findViewById(R.id.password);

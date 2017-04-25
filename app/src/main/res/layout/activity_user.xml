@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/do_assess"
         android:layout_width="match_parent"
         android:layout_height="80dip"
         android:background="#fffffe"
@@ -41,7 +42,7 @@
     </LinearLayout>
 
     <LinearLayout
-
+        android:id="@+id/view_assess"
         android:layout_width="match_parent"
         android:layout_height="80dip"
         android:background="#ffffff"

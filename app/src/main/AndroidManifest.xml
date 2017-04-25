@@ -24,6 +24,12 @@
             android:label="  เมนู"
             android:theme="@style/AppTheme2"></activity>
         <activity android:name=".TestJSON"></activity>
+        <activity
+            android:name=".ListAssess"
+            android:icon="@drawable/tasks"
+            android:label="  รายการแบบประเมิน"
+            android:theme="@style/AppTheme2"></activity>
+        <activity android:name=".DoneAssess"></activity>
     </application>
 
 </manifest>
