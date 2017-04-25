@@ -157,8 +157,6 @@ public class ListAssess extends AppCompatActivity {
                     }
                 });
 
-
-
             }
         }.execute();
 
