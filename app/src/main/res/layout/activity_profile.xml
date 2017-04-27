@@ -31,7 +31,8 @@
         android:padding="5dp"
         android:gravity="center"
         android:background="#f56c6c"
-        android:text="582801004" />
+        android:text="ID"
+        android:id="@+id/alumni_code"/>
 
 
     <TextView
@@ -40,7 +41,8 @@
         android:padding="5dp"
         android:gravity="center"
         android:background="#ff8e8e"
-        android:text="นางสาวกรวิภา ศรีวัง" />
+        android:text="tname"
+        android:id="@+id/alumni_name"/>
 
 
 

@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -41,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     public static final int READ_TIMEOUT=15000;
     private EditText etEmail;
     private EditText etPassword;
+    private String alumni_id;
+    private String alumni_code;
+    private String alumni_tname;
+    private String alumni_tsurname;
 
 
     @Override
@@ -84,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 // Enter URL address where your php file resides
                 //https://team3.ml/Login/check_loginapp
                 //https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login
-                url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login");
+                url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/xxx");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -186,10 +193,31 @@ public class MainActivity extends AppCompatActivity {
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
+
+
+
+                JSONObject re_json;
+
+                try {
+                    re_json = new JSONObject(result);
+                    alumni_id = re_json.getString("alumni_id");
+                    alumni_tname = re_json.getString("alumni_tname");
+                    alumni_code = re_json.getString("alumni_code");
+                    alumni_tsurname = re_json.getString("alumni_tsurname");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
                     Intent intent = new Intent(MainActivity.this,UserActivity.class);
                     intent.putExtra("username", etEmail.getText().toString());
                     intent.putExtra("password", etPassword.getText().toString());
-                    intent.putExtra("session", result);
+                    intent.putExtra("alumni_id", alumni_id);
+                    intent.putExtra("alumni_code", alumni_code);
+                    intent.putExtra("alumni_tname", alumni_tname);
+                    intent.putExtra("alumni_tsurname", alumni_tsurname);
+
                     startActivity(intent);
 
                     Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();

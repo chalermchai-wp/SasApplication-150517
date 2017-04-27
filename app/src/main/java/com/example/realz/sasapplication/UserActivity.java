@@ -13,9 +13,12 @@ public class UserActivity extends AppCompatActivity {
     private LinearLayout DoAssess;
     private LinearLayout ViewAssess;
     private LinearLayout ViewProfile;
-    public  String username;
-    public String password;
-    public String u_id;
+    private String username;
+    private String password;
+    private String alumni_id;
+    private String alumni_tname;
+    private String alumni_tsurname;
+    private String alumni_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,10 @@ public class UserActivity extends AppCompatActivity {
         if (bundle != null) {
             username = bundle.getString("username");
             password = bundle.getString("password");
-            u_id = bundle.getString("session");
+            alumni_id = bundle.getString("alumni_id");
+            alumni_code = bundle.getString("alumni_code");
+            alumni_tname = bundle.getString("alumni_tname");
+            alumni_tsurname = bundle.getString("alumni_tsurname");
 
             //String result = String.format("username is %s, password : %s",username, password);
             //Toast.makeText(this, "Name : " + result, Toast.LENGTH_SHORT).show();
@@ -40,7 +46,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),ListAssess.class);
-                intent.putExtra("u_id",u_id);
+                intent.putExtra("alumni_id",alumni_id);
                 startActivity(intent);
             }
         });
@@ -49,7 +55,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),DoneAssess.class);
-                intent.putExtra("u_id",u_id);
+                intent.putExtra("alumni_id",alumni_id);
                 startActivity(intent);
             }
         });
@@ -60,7 +66,10 @@ public class UserActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
                 intent.putExtra("username",username);
                 intent.putExtra("password",password);
-                intent.putExtra("u_id",u_id);
+                intent.putExtra("alumni_id",alumni_id);
+                intent.putExtra("alumni_code",alumni_code);
+                intent.putExtra("alumni_tname", alumni_tname);
+                intent.putExtra("alumni_tsurname", alumni_tsurname);
                 startActivity(intent);
             }
         });
