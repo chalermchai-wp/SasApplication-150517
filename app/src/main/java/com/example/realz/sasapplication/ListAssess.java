@@ -163,8 +163,8 @@ public class ListAssess extends AppCompatActivity {
         //namesAA = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_1, android.R.id.text1, exData );
         //ListViewJSon.setAdapter(namesAA);
 
-//        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,exData);
-//        ListViewJSon.setAdapter(myAdapter);
+        //ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,exData);
+        //ListViewJSon.setAdapter(myAdapter);
 
     }
 

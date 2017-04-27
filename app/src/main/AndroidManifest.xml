@@ -22,14 +22,15 @@
             android:name=".UserActivity"
             android:icon="@drawable/tasks"
             android:label="  เมนู"
-            android:theme="@style/AppTheme2"></activity>
-        <activity android:name=".TestJSON"></activity>
+            android:theme="@style/AppTheme2" />
+        <activity android:name=".TestJSON" />
         <activity
             android:name=".ListAssess"
             android:icon="@drawable/tasks"
             android:label="  รายการแบบประเมิน"
-            android:theme="@style/AppTheme2"></activity>
-        <activity android:name=".DoneAssess"></activity>
+            android:theme="@style/AppTheme2" />
+        <activity android:name=".DoneAssess" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

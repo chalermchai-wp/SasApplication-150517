@@ -12,43 +12,57 @@ public class UserActivity extends AppCompatActivity {
     private TextView textView;
     private LinearLayout DoAssess;
     private LinearLayout ViewAssess;
+    private LinearLayout ViewProfile;
+    public  String username;
+    public String password;
+    public String u_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            username = bundle.getString("username");
+            password = bundle.getString("password");
+            u_id = bundle.getString("session");
+
+            //String result = String.format("username is %s, password : %s",username, password);
+            //Toast.makeText(this, "Name : " + result, Toast.LENGTH_SHORT).show();
+        }
+
         DoAssess = (LinearLayout)findViewById(R.id.do_assess);
-
         ViewAssess = (LinearLayout)findViewById(R.id.view_assess);
+        ViewProfile = (LinearLayout)findViewById(R.id.view_profile);
 
-        DoAssess.setOnClickListener(Do_assess);
+        DoAssess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ListAssess.class);
+                intent.putExtra("u_id",u_id);
+                startActivity(intent);
+            }
+        });
 
-        ViewAssess.setOnClickListener(View_assess);
+        ViewAssess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),DoneAssess.class);
+                intent.putExtra("u_id",u_id);
+                startActivity(intent);
+            }
+        });
 
-        //Intent intent = getIntent();
-
-       // String username = intent.getStringExtra(MainActivity.USER_NAME);
-
-        //textView.setText("Welcome User "+username);
+        ViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                intent.putExtra("username",username);
+                intent.putExtra("password",password);
+                intent.putExtra("u_id",u_id);
+                startActivity(intent);
+            }
+        });
     }
-
-    private View.OnClickListener Do_assess = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(),ListAssess.class);
-            startActivity(intent);
-        }
-    };
-
-    private View.OnClickListener View_assess = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(),DoneAssess.class);
-            startActivity(intent);
-        }
-    };
-
-
-
 }

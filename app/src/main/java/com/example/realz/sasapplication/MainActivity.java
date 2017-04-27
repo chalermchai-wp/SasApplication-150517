@@ -34,7 +34,9 @@ import javax.net.ssl.X509TrustManager;
 public class MainActivity extends AppCompatActivity {
 
     // CONNECTION_TIMEOUT and READ_TIMEOUT are in milliseconds
-    public static final String USER_NAME = "USERNAME";
+    //public static final String USER_NAME = "USERNAME";
+    //public static final String U_ID = "U_ID";
+
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
     private EditText etEmail;
@@ -48,22 +50,16 @@ public class MainActivity extends AppCompatActivity {
         // Get Reference to variables
         etEmail = (EditText) findViewById(R.id.username);
         etPassword = (EditText) findViewById(R.id.password);
-
     }
 
     // Triggers when LOGIN Button clicked
     public void checkLogin(View arg0) {
-
         // Get text from email and passord field
         final String email = etEmail.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
-
         // Initialize  AsyncLogin() class with email and password
         new AsyncLogin().execute(email,password);
-
     }
-
-
 
     private class AsyncLogin extends AsyncTask<String, String, String>
     {
@@ -168,20 +164,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-
+            super.onPostExecute(result);
             //this method will be running on UI thread
 
             pdLoading.dismiss();
 
-            if(result.equalsIgnoreCase("true"))
-            {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
-                Intent intent = new Intent(MainActivity.this,UserActivity.class);
-                startActivity(intent);
-
-            }else if (result.equalsIgnoreCase("false")){
+            if (result.equalsIgnoreCase("false")){
 
                 // If username and password does not match display a error message
                 Toast.makeText(MainActivity.this, "Invalid email or password", Toast.LENGTH_LONG).show();
@@ -191,7 +179,20 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
 
             } else {
-                Toast.makeText(MainActivity.this, "elsèeēeëeê", Toast.LENGTH_LONG).show();
+
+//              JSONObject jsonObject=new JSONObject(result);
+//              String strLoginID=jsonObject.optString("LoginID");
+//              int status=jsonObject.optInt("status");
+                /* Here launching another activity when login successful. If you persist login state
+                use sharedPreferences of Android. and logout button to clear sharedPreferences.
+                 */
+                    Intent intent = new Intent(MainActivity.this,UserActivity.class);
+                    intent.putExtra("username", etEmail.getText().toString());
+                    intent.putExtra("password", etPassword.getText().toString());
+                    intent.putExtra("session", result);
+                    startActivity(intent);
+
+                    Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
             }
         }
 

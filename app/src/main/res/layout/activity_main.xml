@@ -48,7 +48,8 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"/>
+                android:textColor="#000000"
+                android:maxLength="13"/>
 
         </LinearLayout>
 
@@ -69,7 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:maxLength="1311"/>
     </LinearLayout>
 
 
