@@ -104,7 +104,7 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(UserActivity.this,alumni_id+"----"+alumni_dpid, Toast.LENGTH_LONG).show();
+                //Toast.makeText(UserActivity.this,alumni_id+"----"+alumni_dpid, Toast.LENGTH_LONG).show();
 
                 new AsyncProfile().execute(alumni_id,alumni_dpid);
 

@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(intent);
 
-                    Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
             }
         }
 
