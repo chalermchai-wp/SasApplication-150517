@@ -30,7 +30,10 @@
             android:label="  รายการแบบประเมิน"
             android:theme="@style/AppTheme2" />
         <activity android:name=".DoneAssess" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity"
+            android:label="  ข้อมูลส่วนตัว"
+            android:theme="@style/AppTheme2"
+            ></activity>
     </application>
 
 </manifest>
