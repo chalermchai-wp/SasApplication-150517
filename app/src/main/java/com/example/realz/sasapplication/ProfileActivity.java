@@ -12,8 +12,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        TextView textview = (TextView) findViewById(R.id.usernamep);
-        TextView textview2 = (TextView) findViewById(R.id.passwordp);
+//        TextView textview = (TextView) findViewById(R.id.usernamep);
+//        TextView textview2 = (TextView) findViewById(R.id.passwordp);
         TextView Alumni_code = (TextView) findViewById(R.id.alumni_code);
         TextView Alumni_name = (TextView) findViewById(R.id.alumni_name);
         TextView Pro_name = (TextView) findViewById(R.id.pro_name);
@@ -42,8 +42,8 @@ public class ProfileActivity extends AppCompatActivity {
             String alumni_birthdate = bundle.getString("alumni_birthdate");
             String alumni_gpa = bundle.getString("alumni_gpa");
 
-            textview.setText(u1);
-            textview2.setText(p1);
+//            textview.setText(u1);
+//            textview2.setText(p1);
             Alumni_code.setText(alumni_code);
             Alumni_name.setText(alumni_tprefixdetail+" "+alumni_name+" "+alumni_tsname);
             if(alumni_typeprogram.equals("alu"))
