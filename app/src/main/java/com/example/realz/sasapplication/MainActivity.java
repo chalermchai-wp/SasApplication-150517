@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etEmail;
     private EditText etPassword;
     private String alumni_id;
+    private String alummi_dpid;
     private String alumni_code;
     private String alumni_tname;
     private String alumni_tsurname;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 // Enter URL address where your php file resides
                 //https://team3.ml/Login/check_loginapp
                 //https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login
-                url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/xxx");
+                url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     alumni_id = re_json.getString("alumni_id");
                     alumni_tname = re_json.getString("alumni_tname");
                     alumni_code = re_json.getString("alumni_code");
+                    alummi_dpid = re_json.getString("alumni_dpid");
                     alumni_tsurname = re_json.getString("alumni_tsurname");
 
                 } catch (JSONException e) {
@@ -214,9 +216,10 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("username", etEmail.getText().toString());
                     intent.putExtra("password", etPassword.getText().toString());
                     intent.putExtra("alumni_id", alumni_id);
-                    intent.putExtra("alumni_code", alumni_code);
-                    intent.putExtra("alumni_tname", alumni_tname);
-                    intent.putExtra("alumni_tsurname", alumni_tsurname);
+                    intent.putExtra("alumni_dpid", alummi_dpid);
+//                    intent.putExtra("alumni_code", alumni_code);
+//                    intent.putExtra("alumni_tname", alumni_tname);
+//                    intent.putExtra("alumni_tsurname", alumni_tsurname);
 
                     startActivity(intent);
 
