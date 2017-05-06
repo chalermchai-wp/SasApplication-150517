@@ -277,6 +277,7 @@ public class UserActivity extends AppCompatActivity {
                     intent.putExtra("alumni_email", alumni_email);
                     intent.putExtra("alumni_birthdate", alumni_birthdate);
                     intent.putExtra("alumni_gpa", alumni_gpa);
+                    //intent.putExtra("alumni_img",re_json.getString("alumni_img"));
 
                 startActivity(intent);
 
