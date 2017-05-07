@@ -46,6 +46,7 @@ public class UserActivity extends AppCompatActivity {
     private LinearLayout ViewProfile;
     private String username;
     private String password;
+    private String imageProfile;
     private String alumni_id;
     private String alumni_dpid;
     private String alumni_tname;
@@ -106,7 +107,7 @@ public class UserActivity extends AppCompatActivity {
 
                 //Toast.makeText(UserActivity.this,alumni_id+"----"+alumni_dpid, Toast.LENGTH_LONG).show();
 
-                new AsyncProfile().execute(alumni_id,alumni_dpid);
+                new AsyncProfile().execute(alumni_id,alumni_dpid,imageProfile);
 
             }
         });
@@ -253,6 +254,7 @@ public class UserActivity extends AppCompatActivity {
                     alumni_email = re_json.getString("alumni_email");
                     alumni_birthdate = re_json.getString("alumni_birthdate");
                     alumni_gpa = re_json.getString("alumni_gpa");
+                    imageProfile = re_json.getString("0");
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -277,11 +279,12 @@ public class UserActivity extends AppCompatActivity {
                     intent.putExtra("alumni_email", alumni_email);
                     intent.putExtra("alumni_birthdate", alumni_birthdate);
                     intent.putExtra("alumni_gpa", alumni_gpa);
+                    intent.putExtra("imgProfile", imageProfile);
                     //intent.putExtra("alumni_img",re_json.getString("alumni_img"));
 
                 startActivity(intent);
 
-                //Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
+                Toast.makeText(UserActivity.this, imageProfile, Toast.LENGTH_LONG).show();
             }
         }
 
