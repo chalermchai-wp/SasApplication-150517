@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.realz.sasapplication.UserActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#d4d9eefa">
 
     <ImageView
+        android:layout_marginTop="10dp"
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="250dip"

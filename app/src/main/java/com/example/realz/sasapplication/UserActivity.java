@@ -284,7 +284,7 @@ public class UserActivity extends AppCompatActivity {
 
                 startActivity(intent);
 
-                Toast.makeText(UserActivity.this, imageProfile, Toast.LENGTH_LONG).show();
+                //Toast.makeText(UserActivity.this, imageProfile, Toast.LENGTH_LONG).show();
             }
         }
 
