@@ -8,23 +8,17 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="250dip"
-        android:src="@drawable/header3"
-        />
+        android:src="@drawable/header3" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#919191">
-
-    </LinearLayout>
-
-    <LinearLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/do_assess"
         android:layout_width="match_parent"
         android:layout_height="80dip"
-        android:background="#fffffe"
+        android:background="@drawable/my_custom_bg"
         android:orientation="horizontal">
 
         <ImageButton
@@ -48,17 +42,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#919191">
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/view_assess"
+        android:layout_marginTop="1dp"
         android:layout_width="match_parent"
         android:layout_height="80dip"
-        android:background="#ffffff"
+        android:background="@drawable/my_custom_bg"
         android:orientation="horizontal">
         <ImageButton
             android:layout_width="80dip"
@@ -80,16 +68,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#919191">
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/view_profile"
+        android:layout_marginTop="1dp"
         android:layout_width="match_parent"
         android:layout_height="80dip"
-        android:background="#ffffff"
+        android:background="@drawable/my_custom_bg"
         android:orientation="horizontal">
         <ImageButton
             android:layout_width="80dip"
@@ -110,10 +93,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="#919191">
-    </LinearLayout>
 
 </LinearLayout>
