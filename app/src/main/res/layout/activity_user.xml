@@ -7,6 +7,19 @@
     tools:context="com.example.realz.sasapplication.UserActivity"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="250dip"
+        android:src="@drawable/header3"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#919191">
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/do_assess"
         android:layout_width="match_parent"
