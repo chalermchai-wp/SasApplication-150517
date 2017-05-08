@@ -16,6 +16,8 @@
         android:src="@drawable/header3" />
 
     <LinearLayout
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp"
         android:layout_marginTop="10dp"
         android:id="@+id/do_assess"
         android:layout_width="match_parent"
@@ -44,6 +46,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp"
         android:id="@+id/view_assess"
         android:layout_marginTop="1dp"
         android:layout_width="match_parent"
@@ -70,6 +74,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp"
         android:id="@+id/view_profile"
         android:layout_marginTop="1dp"
         android:layout_width="match_parent"
