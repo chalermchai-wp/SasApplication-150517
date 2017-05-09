@@ -164,9 +164,6 @@ public class DoAssess extends AppCompatActivity {
 
     }
 
-
-
-
     private static void disableSSLCertificateChecking() {
         TrustManager[] trustAllCerts = new TrustManager[] {
                 new X509TrustManager() {
