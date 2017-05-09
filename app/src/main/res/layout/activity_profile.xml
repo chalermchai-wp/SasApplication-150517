@@ -7,61 +7,59 @@
     tools:context="com.example.realz.sasapplication.ProfileActivity"
     android:stretchColumns="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=" " />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="180dp"
-        android:src="@mipmap/ic_launcher"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=" " />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
+    <LinearLayout
         android:gravity="center"
-        android:background="#f56c6c"
-        android:text="ID"
-        android:id="@+id/alumni_code"/>
+        android:orientation="vertical"
+        android:background="@drawable/bg_img"
+        android:layout_height="240dp">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="220dp"
+            android:layout_height="200dp"
+            android:src="@mipmap/ic_launcher"
+            />
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:gravity="center"
-        android:background="#ff8e8e"
-        android:text="tname"
-        android:id="@+id/alumni_name"/>
-
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=" " />
-
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#ff8e8e"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="ID"
+            android:id="@+id/alumni_code"
+            android:textSize="20dp"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="tname"
+            android:id="@+id/alumni_name"
+            android:textSize="20dp"
+            />
+
+
+
+
+
+
+
+
+
+    <TableRow
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#7bafea"
             android:padding="5dp"
             android:text="หลักสูตร :" />
 
@@ -69,7 +67,7 @@
             android:id="@+id/pro_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#ffd1d1"
+            android:background="#d7e6fa"
             android:padding="5dp"
             android:text="pro_name" />
 
@@ -82,7 +80,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#ffd1d1"
+            android:background="#7bafea"
             android:padding="5dp"
             android:text="วุฒิการศึกษา :" />
 
@@ -90,7 +88,7 @@
             android:id="@+id/edulv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#ff8e8e"
+            android:background="#d7e6fa"
             android:padding="5dp"
             android:text="edulv" />
     </TableRow>
@@ -102,14 +100,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:background="#ff8e8e"
+            android:background="#7bafea"
             android:text="ปีการศึกษาที่เข้าศึกษา :" />
         <TextView
             android:id="@+id/yadmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:background="#ffd1d1"
+            android:background="#d7e6fa"
             android:text="year" />
     </TableRow>
     <TableRow
@@ -119,14 +117,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:background="#ffd1d1"
+            android:background="#7bafea"
             android:text="ปีการศึกษาที่จบการศึกษา :" />
         <TextView
             android:id="@+id/ygraduate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:background="#ff8e8e"
+            android:background="#d7e6fa"
             android:text="year" />
     </TableRow>
     <TableRow
@@ -136,14 +134,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:background="#ff8e8e"
+            android:background="#7bafea"
             android:text="E-mail :" />
         <TextView
             android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:background="#ffd1d1"
+            android:background="#d7e6fa"
             android:text="mail" />
     </TableRow>
     <TableRow
@@ -153,14 +151,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:background="#ffd1d1"
+            android:background="#7bafea"
             android:text="GPA :" />
         <TextView
             android:id="@+id/grade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:background="#ff8e8e"
+            android:background="#d7e6fa"
             android:text="grade" />
     </TableRow>
 
