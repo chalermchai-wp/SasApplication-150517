@@ -24,8 +24,6 @@
                 android:text="TASK 1"
                 android:textColor="#130201"
                 android:textSize="20sp" />
-
-
         </LinearLayout>
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
