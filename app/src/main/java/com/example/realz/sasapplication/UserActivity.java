@@ -82,8 +82,6 @@ public class UserActivity extends AppCompatActivity {
 
 //            alumni_id = bundle.getString("alumni_id");
 //            alumni_dpid = bundle.getString("alumni_dpid");
-
-
         }
 
         Bundle recdData = getIntent().getExtras();

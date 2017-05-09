@@ -1,15 +1,17 @@
 package com.example.realz.sasapplication;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +21,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -34,43 +35,33 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class ListAssess extends AppCompatActivity {
+import static com.example.realz.sasapplication.R.id.radio1;
+
+public class DoAssess extends AppCompatActivity {
 
     private ListView ListViewJSon;
-    private ArrayList<String> exData;
-    private ArrayList<String> exData2;
-    private ArrayAdapter<String> namesAA;
     private ProgressDialog progressDialog;
+    private Button ButtonSub;
+    private RadioGroup GroupRadio1;
 
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_assess);
-
-//      btnHit2 = (Button) findViewById(R.id.btn3);
-//      txtJson2 = (TextView) findViewById(R.id.textjson2);
+        setContentView(R.layout.activity_do_assess);
         ListViewJSon = (ListView)findViewById(R.id.listvieww);
+        ButtonSub = (Button)findViewById(R.id.ButtonSubmit);
 
-        exData = new ArrayList<String>();
+
+        final ArrayList<String> exData = new ArrayList<String>();
         exData.clear();
-
-        exData2 = new ArrayList<String>();
-        exData2.clear();
-
-//        exData2.add("adsadasd1");
-//        exData2.add("adsadasd2");
-//        exData2.add("adsadasd3");
-//        exData2.add("adsadasd4");
-//        exData2.add("adsadasd5");
-//        exData2.add("adsadasd6");
-//        exData2.add("adsadasd7");
-
+        final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(DoAssess.this,R.layout.list_question,R.id.listview_text,exData);
+        ListViewJSon.setAdapter(myAdapter);
         new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                progressDialog = new ProgressDialog(ListAssess.this);
+                progressDialog = new ProgressDialog(DoAssess.this);
                 progressDialog.setCancelable(false);
                 progressDialog.setMessage("Downloding ..... ");
                 progressDialog.show();
@@ -80,7 +71,7 @@ public class ListAssess extends AppCompatActivity {
             protected Void doInBackground(Void... params) {
                 try {
                     disableSSLCertificateChecking();
-                    URL url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/DoAssess/ListAssess");
+                    URL url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/DoAssess/ListQuestion");
 
                     URLConnection urlConnection = url.openConnection();
 
@@ -116,7 +107,7 @@ public class ListAssess extends AppCompatActivity {
                     }
                     JSONArray exArray = null;
                     try {
-                        exArray = jsonObject.getJSONArray("assess");
+                        exArray = jsonObject.getJSONArray("question");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -129,13 +120,10 @@ public class ListAssess extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         try {
-                            exData.add(jsonObj.getString("assess_detail"));
-                            exData2.add(jsonObj.getString("assess_id"));
-
+                            exData.add(jsonObj.getString("quest_detail"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
 
                 } catch (IOException e) {
@@ -149,23 +137,21 @@ public class ListAssess extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 progressDialog.dismiss();
-                final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(ListAssess.this,R.layout.mylistviewdone,R.id.listview_text,exData);
-                final ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(ListAssess.this,R.layout.mylistviewdone,R.id.id_assess,exData2);
+                final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(DoAssess.this,R.layout.list_question,R.id.listview_text,exData);
                 ListViewJSon.setAdapter(myAdapter);
 
-                ListViewJSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                /*ListViewJSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         //Toast.makeText(getApplicationContext(),String.valueOf(adapter.getItem(position)),
                         //Toast.LENGTH_SHORT).show();
 
                         //UserActivity แก้เป็น Class ที่จะให้ไป
-                        Intent editIntent = new Intent(getApplicationContext(), DoAssess.class);
+                        Intent editIntent = new Intent(getApplicationContext(), UserActivity.class);
                         editIntent.putExtra("editTodolist", (Serializable) myAdapter.getItem(position));
-                        editIntent.putExtra("editTodolist2", (Serializable) myAdapter2.getItem(position));
                         startActivity(editIntent);
                     }
-                });
+                });*/
 
             }
         }.execute();
@@ -223,5 +209,28 @@ public class ListAssess extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
 
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case radio1:
+                if (checked)
+                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.radio2:
+                if (checked)
+                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.radio3:
+                if (checked)
+                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.radio4:
+                if (checked)
+                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
 }
