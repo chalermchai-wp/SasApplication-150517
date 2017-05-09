@@ -138,8 +138,6 @@ public class DoneAssess extends AppCompatActivity {
                 ListViewJSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //Toast.makeText(getApplicationContext(),String.valueOf(adapter.getItem(position)),
-                        //Toast.LENGTH_SHORT).show();
 
                         //UserActivity แก้เป็น Class ที่จะให้ไป
                         Intent editIntent = new Intent(getApplicationContext(), UserActivity.class);
