@@ -70,12 +70,19 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+        MainActivity main = new MainActivity();
+        alumni_id = main.getAlumni_id();
+        alumni_dpid = main.getAlummi_dpid();
+        //alumni_id = main.alumni_id;
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             username = bundle.getString("username");
             password = bundle.getString("password");
-            alumni_id = bundle.getString("alumni_id");
-            alumni_dpid = bundle.getString("alumni_dpid");
+
+//            alumni_id = bundle.getString("alumni_id");
+//            alumni_dpid = bundle.getString("alumni_dpid");
+
 
         }
 
@@ -83,7 +90,7 @@ public class UserActivity extends AppCompatActivity {
         String myVal = recdData.getString("editTodolist");
         String myVal2 = recdData.getString("editTodolist2");
 
-        Toast.makeText(UserActivity.this,myVal+"  "+myVal2, Toast.LENGTH_LONG).show();
+        Toast.makeText(UserActivity.this,myVal+"  "+myVal2+" "+main.getAlumni_id(), Toast.LENGTH_LONG).show();
 
 
         DoAssess = (LinearLayout)findViewById(R.id.do_assess);

@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int READ_TIMEOUT=15000;
     private EditText etEmail;
     private EditText etPassword;
-    private String alumni_id;
-    private String alummi_dpid;
+    public  static String alumni_id;
+    public  static String alummi_dpid;
     private String alumni_code;
     private String alumni_tname;
     private String alumni_tsurname;
@@ -270,6 +270,14 @@ public class MainActivity extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getAlumni_id(){
+        return this.alumni_id;
+    }
+
+    public String getAlummi_dpid(){
+        return this.alummi_dpid;
     }
 
 }
