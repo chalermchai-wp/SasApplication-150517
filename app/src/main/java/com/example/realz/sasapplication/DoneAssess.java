@@ -51,7 +51,6 @@ public class DoneAssess extends AppCompatActivity {
         exData = new ArrayList<String>();
         exData.clear();
 
-
         new AsyncTask<Void, Void, Void>() {
 
             @Override
