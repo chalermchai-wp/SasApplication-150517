@@ -24,6 +24,12 @@
             android:textColor="#130201"
             android:layout_weight="1"
             android:id="@+id/listview_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/id_assess"
+            android:text="asdasd"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

@@ -38,6 +38,7 @@ public class ListAssess extends AppCompatActivity {
 
     private ListView ListViewJSon;
     private ArrayList<String> exData;
+    private ArrayList<String> exData2;
     private ArrayAdapter<String> namesAA;
     private ProgressDialog progressDialog;
 
@@ -52,13 +53,17 @@ public class ListAssess extends AppCompatActivity {
 
         exData = new ArrayList<String>();
         exData.clear();
-//        exData.add("adsadasd1");
-//        exData.add("adsadasd2");
-//        exData.add("adsadasd3");
-//        exData.add("adsadasd4");
-//        exData.add("adsadasd5");
-//        exData.add("adsadasd6");
-//        exData.add("adsadasd7");
+
+        exData2 = new ArrayList<String>();
+        exData2.clear();
+
+//        exData2.add("adsadasd1");
+//        exData2.add("adsadasd2");
+//        exData2.add("adsadasd3");
+//        exData2.add("adsadasd4");
+//        exData2.add("adsadasd5");
+//        exData2.add("adsadasd6");
+//        exData2.add("adsadasd7");
 
         new AsyncTask<Void, Void, Void>() {
 
@@ -125,9 +130,12 @@ public class ListAssess extends AppCompatActivity {
                         }
                         try {
                             exData.add(jsonObj.getString("assess_detail"));
+                            exData2.add(jsonObj.getString("assess_id"));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
 
                 } catch (IOException e) {
@@ -142,6 +150,7 @@ public class ListAssess extends AppCompatActivity {
                 super.onPostExecute(aVoid);
                 progressDialog.dismiss();
                 final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(ListAssess.this,R.layout.mylistviewdone,R.id.listview_text,exData);
+                final ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(ListAssess.this,R.layout.mylistviewdone,R.id.id_assess,exData2);
                 ListViewJSon.setAdapter(myAdapter);
 
                 ListViewJSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -153,6 +162,7 @@ public class ListAssess extends AppCompatActivity {
                         //UserActivity แก้เป็น Class ที่จะให้ไป
                         Intent editIntent = new Intent(getApplicationContext(), UserActivity.class);
                         editIntent.putExtra("editTodolist", (Serializable) myAdapter.getItem(position));
+                        editIntent.putExtra("editTodolist2", (Serializable) myAdapter2.getItem(position));
                         startActivity(editIntent);
                     }
                 });
