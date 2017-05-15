@@ -141,7 +141,6 @@ public class DoAssess extends AppCompatActivity {
 
             }
 
-
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
@@ -154,20 +153,6 @@ public class DoAssess extends AppCompatActivity {
                 Log.d("EXDATA", "onPostExecute: "+exData);
             }
         }.execute();
-
-//        ListViewJSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id ) {
-////                Intent editIntent = new Intent(getApplicationContext(), UserActivity.class);
-////                    editIntent.putExtra("editTodolist", (Serializable) myAdapter.getItem(position));
-////                    startActivity(editIntent);
-//
-//                Toast.makeText(DoAssess.this, myAdapter.getItem(position), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-
-
 
     }
 
