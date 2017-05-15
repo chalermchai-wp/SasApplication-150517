@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/do_ass"
     tools:context="com.example.realz.sasapplication.DoAssess">
 
 
     <ListView
-        android:id="@+id/listvieww"
+        android:id="@+id/listview_do"
         android:layout_width="match_parent"
-        android:layout_height="610dp" />
+        android:layout_height="wrap_content" />
 
 
     <Button

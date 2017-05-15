@@ -1,16 +1,20 @@
 package com.example.realz.sasapplication;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -35,7 +39,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import static com.example.realz.sasapplication.R.id.radio1;
+//import static com.example.realz.sasapplication.R.id.radio1;
 
 public class DoAssess extends AppCompatActivity {
 
@@ -43,19 +47,23 @@ public class DoAssess extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Button ButtonSub;
     private RadioGroup GroupRadio1;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+    private Button btnDisplay;
+    final ArrayList<String> exData = new ArrayList<String>();
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_do_assess);
-        ListViewJSon = (ListView)findViewById(R.id.listvieww);
+        ListViewJSon = (ListView)findViewById(R.id.listview_do);
         ButtonSub = (Button)findViewById(R.id.ButtonSubmit);
 
 
-        final ArrayList<String> exData = new ArrayList<String>();
+
         exData.clear();
-        final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(DoAssess.this,R.layout.list_question,R.id.listview_text,exData);
-        ListViewJSon.setAdapter(myAdapter);
+//        final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(DoAssess.this,R.layout.list_question,R.id.listview_text,exData);
+//        ListViewJSon.setAdapter(myAdapter);
         new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -130,6 +138,7 @@ public class DoAssess extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 return null;
+
             }
 
 
@@ -137,30 +146,120 @@ public class DoAssess extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 progressDialog.dismiss();
-                final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(DoAssess.this,R.layout.list_question,R.id.listview_text,exData);
-                ListViewJSon.setAdapter(myAdapter);
+                //final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(DoAssess.this,R.layout.list_question,R.id.listview_text,exData);
+                //ListViewJSon.setAdapter(myAdapter);
+                RadioButtonAdapter rdio = new RadioButtonAdapter(getApplicationContext(),exData);
 
-                /*ListViewJSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //Toast.makeText(getApplicationContext(),String.valueOf(adapter.getItem(position)),
-                        //Toast.LENGTH_SHORT).show();
-
-                        //UserActivity แก้เป็น Class ที่จะให้ไป
-                        Intent editIntent = new Intent(getApplicationContext(), UserActivity.class);
-                        editIntent.putExtra("editTodolist", (Serializable) myAdapter.getItem(position));
-                        startActivity(editIntent);
-                    }
-                });*/
-
+                ListViewJSon.setAdapter(rdio);
+                Log.d("EXDATA", "onPostExecute: "+exData);
             }
         }.execute();
 
-        //namesAA = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_1, android.R.id.text1, exData );
-        //ListViewJSon.setAdapter(namesAA);
+//        ListViewJSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id ) {
+////                Intent editIntent = new Intent(getApplicationContext(), UserActivity.class);
+////                    editIntent.putExtra("editTodolist", (Serializable) myAdapter.getItem(position));
+////                    startActivity(editIntent);
+//
+//                Toast.makeText(DoAssess.this, myAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-        //ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,android.R.id.text1,exData);
-        //ListViewJSon.setAdapter(myAdapter);
+
+
+
+    }
+
+
+    private class RadioButtonAdapter extends ArrayAdapter<String> {
+
+        class ViewHolder {
+            TextView t = null;
+            RadioGroup group;
+
+            ViewHolder(View v) {
+                t = (TextView) v.findViewById(R.id.listview_text);
+                group = (RadioGroup) v.findViewById(R.id.GroupRadio);
+            }
+        }
+
+        private LayoutInflater mInflater;
+
+        public RadioButtonAdapter(Context context, ArrayList<String> exData) {
+            super(context, R.layout.list_question, exData);
+            mInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View v = convertView;
+            ViewHolder holder = null;
+
+            if (v == null) {
+                v = mInflater.inflate(R.layout.list_question, parent, false);
+                holder = new ViewHolder(v);
+                holder.t = (TextView)v.findViewById(R.id.listview_text);
+                v.setTag(holder);
+
+
+
+
+                holder.group
+                        .setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                Integer pos = (Integer) group.getTag(); // To identify the Model object i get from the RadioGroup with getTag()
+                                //  an integer representing the actual position
+                                //Model element = exData.get(pos);
+                                switch (checkedId) { //set the Model to hold the answer the user picked
+                                    case R.id.radio1:
+                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)));
+                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
+                                        //element.current = Model.ANSWER_ONE_SELECTED;
+                                        break;
+                                    case R.id.radio2:
+                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos));
+                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
+                                        //element.current = Model.ANSWER_TWO_SELECTED;
+                                        break;
+                                    case R.id.radio3:
+                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos));
+                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
+                                        //element.current = Model.ANSWER_THREE_SELECTED;
+                                        break;
+                                    case R.id.radio4:
+                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos));
+                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
+
+                                        //element.current = Model.ANSWER_FOUR_SELECTED;
+                                        break;
+                                    default:
+                                        //element.current = Model.NONE; // Something was wrong set to the default
+                                }
+
+                            }
+                        });
+            } else {
+                holder = (ViewHolder) v.getTag();
+            }
+            holder.group.setTag(new Integer(position)); // I passed the current position as a tag
+
+            holder.t.setText(exData.get(position));
+            //holder.t.setText(list.get(position).question); // Set the question body
+
+//            if (list.get(position).current != Model.NONE) {
+//                RadioButton r = (RadioButton) holder.group.getChildAt(list
+//                        .get(position).current);
+//                r.setChecked(true);
+//            } else {
+//                holder.group.clearCheck(); // This is required because although the Model could have the current
+//                // position to NONE you could be dealing with a previous row where
+//                // the user already picked an answer.
+//
+//            }
+            return v;
+        }
 
     }
 
@@ -206,28 +305,54 @@ public class DoAssess extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
 
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case radio1:
-                if (checked)
-                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
-                break;
-            case R.id.radio2:
-                if (checked)
-                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
-                break;
-            case R.id.radio3:
-                if (checked)
-                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
-                break;
-            case R.id.radio4:
-                if (checked)
-                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
-                break;
-        }
-    }
+
+
+//    public void onRadioButtonClicked(View view) {
+//        // Is the button now checked?
+//        boolean checked = ((RadioButton) view).isChecked();
+//
+//        // Check which radio button was clicked
+//        switch(view.getId()) {
+//            case radio1:
+//                if (checked)
+//                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
+//                break;
+//            case R.id.radio2:
+//                if (checked)
+//                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
+//                break;
+//            case R.id.radio3:
+//                if (checked)
+//                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
+//                break;
+//            case R.id.radio4:
+//                if (checked)
+//                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
+//                break;
+//        }
+//    }
+
+//    public void addListenerOnButton() {
+//
+//        radioGroup = (RadioGroup) findViewById(R.id.GroupRadio);
+//        btnDisplay = (Button) findViewById(R.id.ButtonSubmit);
+//
+//        btnDisplay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // get selected radio button from radioGroup
+//                int selectedId = radioGroup.getCheckedRadioButtonId();
+//
+//                Log.d("SelectID", "onClick: "+ selectedId);
+//
+//                // find the radiobutton by returned id
+//                radioButton = (RadioButton) findViewById(selectedId);
+//
+//                Toast.makeText(DoAssess.this,
+//                        radioButton.getText(), Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//    }
 }

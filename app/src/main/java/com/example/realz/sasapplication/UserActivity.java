@@ -88,7 +88,7 @@ public class UserActivity extends AppCompatActivity {
         String myVal = recdData.getString("editTodolist");
         String myVal2 = recdData.getString("editTodolist2");
 
-        Toast.makeText(UserActivity.this,myVal+"  "+myVal2+" "+main.getAlumni_id(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(UserActivity.this,myVal+"  "+myVal2+" "+main.getAlumni_id(), Toast.LENGTH_LONG).show();
 
 
         DoAssess = (LinearLayout)findViewById(R.id.do_assess);
