@@ -51,6 +51,7 @@ public class DoAssess extends AppCompatActivity {
     private RadioButton radioButton;
     private Button btnDisplay;
     final ArrayList<String> exData = new ArrayList<String>();
+    private int[] score;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,6 @@ public class DoAssess extends AppCompatActivity {
         setContentView(R.layout.activity_do_assess);
         ListViewJSon = (ListView)findViewById(R.id.listview_do);
         ButtonSub = (Button)findViewById(R.id.ButtonSubmit);
-
-
 
         exData.clear();
 //        final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(DoAssess.this,R.layout.list_question,R.id.listview_text,exData);
@@ -151,11 +150,30 @@ public class DoAssess extends AppCompatActivity {
 
                 ListViewJSon.setAdapter(rdio);
                 Log.d("EXDATA", "onPostExecute: "+exData);
+                score = new int[exData.size()];
+
             }
         }.execute();
 
-    }
+        //Toast.makeText(DoAssess.this,  , Toast.LENGTH_SHORT).show();
 
+        ButtonSub.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                StringBuilder builder = new StringBuilder();
+                for(int i : score)
+                {
+                    builder.append("" + i + " ");
+                }
+
+                Log.d("SCOREEEE", "onClick: " + builder);
+
+                Toast.makeText(DoAssess.this, builder , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     private class RadioButtonAdapter extends ArrayAdapter<String> {
 
@@ -177,7 +195,7 @@ public class DoAssess extends AppCompatActivity {
         }
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, final View convertView, ViewGroup parent) {
             View v = convertView;
             ViewHolder holder = null;
 
@@ -196,23 +214,27 @@ public class DoAssess extends AppCompatActivity {
                                 //Model element = exData.get(pos);
                                 switch (checkedId) { //set the Model to hold the answer the user picked
                                     case R.id.radio1:
-                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)));
-                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
-                                        //element.current = Model.ANSWER_ONE_SELECTED;
+                                        addscore(exData.indexOf(exData.get(position)),1);
+//                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)));
+//                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
+//                                        //element.current = Model.ANSWER_ONE_SELECTED;
                                         break;
                                     case R.id.radio2:
-                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos));
-                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
-                                        //element.current = Model.ANSWER_TWO_SELECTED;
+                                        addscore(exData.indexOf(exData.get(position)),2);
+//                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos));
+//                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
+//                                        //element.current = Model.ANSWER_TWO_SELECTED;
                                         break;
                                     case R.id.radio3:
-                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos));
-                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
-                                        //element.current = Model.ANSWER_THREE_SELECTED;
+                                        addscore(exData.indexOf(exData.get(position)),3);
+//                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos));
+//                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
+//                                        //element.current = Model.ANSWER_THREE_SELECTED;
                                         break;
                                     case R.id.radio4:
-                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos));
-                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
+                                        addscore(exData.indexOf(exData.get(position)),4);
+//                                        Log.d("CheckID", "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos));
+//                                        Toast.makeText(DoAssess.this,  "onCheckedChanged: "+checkedId+"  POST" + exData.get(pos)+ " Group "+ exData.indexOf(exData.get(position)), Toast.LENGTH_SHORT).show();
 
                                         //element.current = Model.ANSWER_FOUR_SELECTED;
                                         break;
@@ -244,6 +266,12 @@ public class DoAssess extends AppCompatActivity {
         }
 
     }
+
+    public void addscore(int position,int point){
+
+        score[position] = point;
+    }
+
 
     private static void disableSSLCertificateChecking() {
         TrustManager[] trustAllCerts = new TrustManager[] {
