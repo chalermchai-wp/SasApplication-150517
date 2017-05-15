@@ -202,9 +202,6 @@ public class DoAssess extends AppCompatActivity {
                 holder.t = (TextView)v.findViewById(R.id.listview_text);
                 v.setTag(holder);
 
-
-
-
                 holder.group
                         .setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
