@@ -2,6 +2,7 @@ package com.example.realz.sasapplication;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,10 +23,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.KeyManagementException;
@@ -43,6 +48,8 @@ import javax.net.ssl.X509TrustManager;
 
 public class DoAssess extends AppCompatActivity {
 
+    public static final int CONNECTION_TIMEOUT=10000;
+    public static final int READ_TIMEOUT=15000;
     private ListView ListViewJSon;
     private ProgressDialog progressDialog;
     private Button ButtonSub;
@@ -50,8 +57,10 @@ public class DoAssess extends AppCompatActivity {
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private Button btnDisplay;
+    private String alumni_id;
     final ArrayList<String> exData = new ArrayList<String>();
     private int[] score;
+    private String assess_id;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,10 @@ public class DoAssess extends AppCompatActivity {
         setContentView(R.layout.activity_do_assess);
         ListViewJSon = (ListView)findViewById(R.id.listview_do);
         ButtonSub = (Button)findViewById(R.id.ButtonSubmit);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            assess_id = bundle.getString("assess_id");
+        }
 
         exData.clear();
 //        final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(DoAssess.this,R.layout.list_question,R.id.listview_text,exData);
@@ -78,7 +91,7 @@ public class DoAssess extends AppCompatActivity {
             protected Void doInBackground(Void... params) {
                 try {
                     disableSSLCertificateChecking();
-                    URL url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/DoAssess/ListQuestion");
+                    URL url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/DoAssess/ListQuestion/?id="+assess_id);
 
                     URLConnection urlConnection = url.openConnection();
 
@@ -166,14 +179,21 @@ public class DoAssess extends AppCompatActivity {
                 {
                     builder.append("" + i + " ");
                 }
-
                 Log.d("SCOREEEE", "onClick: " + builder);
+                String answer = builder.toString();
 
-                Toast.makeText(DoAssess.this, builder , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DoAssess.this, answer , Toast.LENGTH_SHORT).show();
+
+                MainActivity main = new MainActivity();
+                alumni_id = main.getAlumni_id();
+
+                new AsyncSendAns().execute(alumni_id,assess_id,answer);
             }
         });
 
     }
+
+
 
     private class RadioButtonAdapter extends ArrayAdapter<String> {
 
@@ -272,6 +292,166 @@ public class DoAssess extends AppCompatActivity {
         score[position] = point;
     }
 
+    private class AsyncSendAns extends AsyncTask<String, String, String>
+    {
+        ProgressDialog pdLoading = new ProgressDialog(DoAssess.this);
+        HttpsURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            //this method will be running on UI thread
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+
+        }
+        @Override
+        protected String doInBackground(String... params) {
+            disableSSLCertificateChecking();
+            try {
+                // Enter URL address where your php file resides
+                //https://team3.ml/Login/check_loginapp
+                //https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/LoginApp/check_login
+                url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/DoAssess/SubmitAnswer/");
+
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpsURLConnection)url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("alumni_id", params[0])
+                        .appendQueryParameter("assess_id", params[1])
+                        .appendQueryParameter("answer", params[2]);
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+                Log.d("catch","11");
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                Log.d("catch","catch");
+                return "exception";
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return(result.toString());
+
+                }else{
+
+                    return("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //this method will be running on UI thread
+
+            pdLoading.dismiss();
+
+            if (result.equalsIgnoreCase("Success")){
+
+                // If username and password does not match display a error message
+                Toast.makeText(DoAssess.this, "บันทึกคำตอบเรียบร้อยแล้ว", Toast.LENGTH_LONG).show();
+
+            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+
+                Toast.makeText(DoAssess.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+
+            } else {
+
+//              JSONObject jsonObject=new JSONObject(result);
+//              String strLoginID=jsonObject.optString("LoginID");
+//              int status=jsonObject.optInt("status");
+                /* Here launching another activity when login successful. If you persist login state
+                use sharedPreferences of Android. and logout button to clear sharedPreferences.
+                 */
+
+
+
+//                JSONObject re_json;
+//
+//                try {
+//                    re_json = new JSONObject(result);
+//                    alumni_id = re_json.getString("alumni_id");
+//                    alumni_tname = re_json.getString("alumni_tname");
+//                    alumni_code = re_json.getString("alumni_code");
+//                    alummi_dpid = re_json.getString("alumni_dpid");
+//                    alumni_tsurname = re_json.getString("alumni_tsurname");
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                Intent intent = new Intent(MainActivity.this,UserActivity.class);
+//                intent.putExtra("username", etEmail.getText().toString());
+//                intent.putExtra("password", etPassword.getText().toString());
+//                intent.putExtra("alumni_id", alumni_id);
+//                intent.putExtra("alumni_dpid", alummi_dpid);
+////                    intent.putExtra("alumni_code", alumni_code);
+////                    intent.putExtra("alumni_tname", alumni_tname);
+////                    intent.putExtra("alumni_tsurname", alumni_tsurname);
+//
+//                startActivity(intent);
+
+                //Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
 
     private static void disableSSLCertificateChecking() {
         TrustManager[] trustAllCerts = new TrustManager[] {
@@ -315,54 +495,5 @@ public class DoAssess extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-
-//    public void onRadioButtonClicked(View view) {
-//        // Is the button now checked?
-//        boolean checked = ((RadioButton) view).isChecked();
-//
-//        // Check which radio button was clicked
-//        switch(view.getId()) {
-//            case radio1:
-//                if (checked)
-//                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
-//                break;
-//            case R.id.radio2:
-//                if (checked)
-//                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
-//                break;
-//            case R.id.radio3:
-//                if (checked)
-//                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
-//                break;
-//            case R.id.radio4:
-//                if (checked)
-//                    Toast.makeText(DoAssess.this, ((RadioButton) view).getText(), Toast.LENGTH_LONG).show();
-//                break;
-//        }
-//    }
-
-//    public void addListenerOnButton() {
-//
-//        radioGroup = (RadioGroup) findViewById(R.id.GroupRadio);
-//        btnDisplay = (Button) findViewById(R.id.ButtonSubmit);
-//
-//        btnDisplay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // get selected radio button from radioGroup
-//                int selectedId = radioGroup.getCheckedRadioButtonId();
-//
-//                Log.d("SelectID", "onClick: "+ selectedId);
-//
-//                // find the radiobutton by returned id
-//                radioButton = (RadioButton) findViewById(selectedId);
-//
-//                Toast.makeText(DoAssess.this,
-//                        radioButton.getText(), Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
-//    }
+    
 }

@@ -162,7 +162,8 @@ public class ListAssess extends AppCompatActivity {
                         //UserActivity แก้เป็น Class ที่จะให้ไป
                         Intent editIntent = new Intent(getApplicationContext(), DoAssess.class);
                         editIntent.putExtra("editTodolist", (Serializable) myAdapter.getItem(position));
-                        editIntent.putExtra("editTodolist2", (Serializable) myAdapter2.getItem(position));
+                        editIntent.putExtra("assess_id", (Serializable) myAdapter2.getItem(position));
+                        //Toast.makeText(getApplicationContext(), myAdapter2.getItem(position), Toast.LENGTH_SHORT).show();
                         startActivity(editIntent);
                     }
                 });
