@@ -2,6 +2,7 @@ package com.example.realz.sasapplication;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -405,48 +406,16 @@ public class DoAssess extends AppCompatActivity {
                 // If username and password does not match display a error message
                 Toast.makeText(DoAssess.this, "บันทึกคำตอบเรียบร้อยแล้ว", Toast.LENGTH_LONG).show();
 
+                Intent intent = new Intent(DoAssess.this,UserActivity.class);
+                startActivity(intent);
+
             } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
 
                 Toast.makeText(DoAssess.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
 
             } else {
 
-//              JSONObject jsonObject=new JSONObject(result);
-//              String strLoginID=jsonObject.optString("LoginID");
-//              int status=jsonObject.optInt("status");
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
 
-
-
-//                JSONObject re_json;
-//
-//                try {
-//                    re_json = new JSONObject(result);
-//                    alumni_id = re_json.getString("alumni_id");
-//                    alumni_tname = re_json.getString("alumni_tname");
-//                    alumni_code = re_json.getString("alumni_code");
-//                    alummi_dpid = re_json.getString("alumni_dpid");
-//                    alumni_tsurname = re_json.getString("alumni_tsurname");
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//                Intent intent = new Intent(MainActivity.this,UserActivity.class);
-//                intent.putExtra("username", etEmail.getText().toString());
-//                intent.putExtra("password", etPassword.getText().toString());
-//                intent.putExtra("alumni_id", alumni_id);
-//                intent.putExtra("alumni_dpid", alummi_dpid);
-////                    intent.putExtra("alumni_code", alumni_code);
-////                    intent.putExtra("alumni_tname", alumni_tname);
-////                    intent.putExtra("alumni_tsurname", alumni_tsurname);
-//
-//                startActivity(intent);
-
-                //Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
             }
         }
 

@@ -41,11 +41,15 @@ public class ListAssess extends AppCompatActivity {
     private ArrayList<String> exData2;
     private ArrayAdapter<String> namesAA;
     private ProgressDialog progressDialog;
+    private String alumni_id;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_assess);
+
+        MainActivity main = new MainActivity();
+        alumni_id = main.getAlumni_id();
 
 //      btnHit2 = (Button) findViewById(R.id.btn3);
 //      txtJson2 = (TextView) findViewById(R.id.textjson2);
@@ -80,7 +84,7 @@ public class ListAssess extends AppCompatActivity {
             protected Void doInBackground(Void... params) {
                 try {
                     disableSSLCertificateChecking();
-                    URL url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/DoAssess/ListAssess");
+                    URL url = new URL("https://10.51.4.17/TSP57/PCK/index.php/sas/Alumni/DoAssess/ListAssess?id="+alumni_id);
 
                     URLConnection urlConnection = url.openConnection();
 
